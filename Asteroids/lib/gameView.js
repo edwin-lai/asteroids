@@ -6,7 +6,7 @@ function gameView(game, ctx){
 }
 
 gameView.prototype.moveDraw = function () {
-  this.game.moveObjects();
+  this.game.step();
   this.game.draw(this.ctx);
 };
 

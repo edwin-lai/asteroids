@@ -3,7 +3,7 @@ var Asteroid = require("./asteroid.js");
 function Game () {
   this.DIM_X = window.innerWidth;
   this.DIM_Y = window.innerHeight;
-  this.NUM_ASTEROIDS = 10;
+  this.NUM_ASTEROIDS = 4;
   this.addAsteroids();
 }
 
@@ -47,6 +47,22 @@ Game.prototype.wrap = function (pos) {
   return pos;
 };
 
+Game.prototype.checkCollisions = function () {
+  for (var i = 0; i < this.asteroids.length; i++) {
+    for (var j = i + 1; j < this.asteroids.length; j++) {
+      if (this.asteroids[i].isCollidedWith(this.asteroids[j])) {
+        alert("COLLISION");
+      }
+    }
+  }
+};
 
+Game.prototype.step = function () {
+  this.moveObjects();
+  this.checkCollisions();
+};
+
+Game.prototype.remove = function (asteroid) {
+};
 
 module.exports = Game;

@@ -108,7 +108,10 @@
 	  return Utils.distance(this.pos, otherObject.pos) < (this.radius + otherObject.radius);
 	};
 
-
+	MovingObject.prototype.CollidedWith = function (otherObject) {
+	  this.game.remove(this);
+	  this.game.remove(otherObject);
+	};
 
 
 
@@ -128,7 +131,7 @@
 	  },
 
 	  distance: function(pos1, pos2){
-	    Math.sqrt(Math.pow(pos1[0] - pos2[0], 2) + Math.pow(pos1[1] - pos2[1], 2 ));
+	    return Math.sqrt(Math.pow(pos1[0] - pos2[0], 2) + Math.pow(pos1[1] - pos2[1], 2 ));
 	  }
 	};
 
@@ -167,7 +170,7 @@
 	function Game () {
 	  this.DIM_X = window.innerWidth;
 	  this.DIM_Y = window.innerHeight;
-	  this.NUM_ASTEROIDS = 10;
+	  this.NUM_ASTEROIDS = 4;
 	  this.addAsteroids();
 	}
 
@@ -211,7 +214,23 @@
 	  return pos;
 	};
 
+	Game.prototype.checkCollisions = function () {
+	  for (var i = 0; i < this.asteroids.length; i++) {
+	    for (var j = i + 1; j < this.asteroids.length; j++) {
+	      if (this.asteroids[i].isCollidedWith(this.asteroids[j])) {
+	        alert("COLLISION");
+	      }
+	    }
+	  }
+	};
 
+	Game.prototype.step = function () {
+	  this.moveObjects();
+	  this.checkCollisions();
+	};
+
+	Game.prototype.remove = function (asteroid) {
+	};
 
 	module.exports = Game;
 
@@ -228,7 +247,7 @@
 	}
 
 	gameView.prototype.moveDraw = function () {
-	  this.game.moveObjects();
+	  this.game.step();
 	  this.game.draw(this.ctx);
 	};
 
